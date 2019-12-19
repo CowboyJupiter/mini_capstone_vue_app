@@ -12,11 +12,11 @@
       <p>id: {{ product.id }}</p>
       <p>title: {{ product.name }}</p>
       <p>description:{{ product.description }} </p>
-      <img v-bind:src="product.image_url" v-bind:alt="product.name>"
+      <img v-bind:src="product.image_url" v-bind:alt="product.name">
       <br>
 
       <button v-on:click="toggleInfo(product)">More Info</button>
-      <div v-if="currentProduct" === product">
+      <div v-if="currentProduct">
         <p>description: {{product.description }} </p>
 
 
