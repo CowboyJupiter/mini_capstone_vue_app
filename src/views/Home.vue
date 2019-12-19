@@ -71,38 +71,39 @@ export default {
         this.newProductPrice = "";
         this.newProductDescription = "";
         this.newProductImage = "";
-
       });
-      toggleInfo: function(theProduct) {
-        console.log(theProduct);
-        if (this.currentProduct === theProduct) {
-          this.currentProduct = null;
-        } else {
-          this.currentProduct = theProduct;
-        }
-        console.log('in toggle');
 
-      },
-      updateProduct: function(theProduct) {
-        console.log('updating the product');
-        console.log(theProduct);
-
-        var params = {
-          name: theProduct.name,
-          price: theProduct.price,
-          descrition: theProduct.description,
-          image_url: theProduct.image_url,
-        }
-
-        axios.patch(`/api/recipes/${theProduct.id}`, params).then(response => {
-          console.log(response.data);
-          theProduct.name = response.data.name;
-          theProduct.price = response.data.price;
-          theProduct.description = response.data.description;
-        });
+    },
+    toggleInfo: function(theProduct) {
+      console.log(theProduct);
+      if (this.currentProduct === theProduct) {
+        this.currentProduct = null;
+      } else {
+        this.currentProduct = theProduct;
       }
+      console.log('in toggle');
+
+    },
+    updateProduct: function(theProduct) {
+      console.log('updating the product');
+      console.log(theProduct);
+
+      var params = {
+        name: theProduct.name,
+        price: theProduct.price,
+        descrition: theProduct.description,
+        image_url: theProduct.image_url,
+      }
+
+      axios.patch(`/api/products/${theProduct.id}`, params).then(response => {
+        console.log(response.data);
+        theProduct.name = response.data.name;
+        theProduct.price = response.data.price;
+        theProduct.description = response.data.description;
+      });
     }
-    
+
+
   }
-};
-</script>
+  };
+  </script>
