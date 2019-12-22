@@ -7,8 +7,8 @@
     <p>Product Description <input type="text" v-model="newProductDescription"></p>
     <p>Product Image <input type="text" v-model="newProductImage"></p>
 
-    <button v-on:click="addProduct()">Add Product</button>
-    <div v-for="product in products">
+    <div v-for="product in filterBy(products, searchTerm, 'name')">    v-bind:class="{selected: product.selected}">
+      <button v-on:click="(product)">select product</button>
       <p>id: {{ product.id }}</p>
       <p>title: {{ product.name }}</p>
       <p>description:{{ product.description }} </p>
@@ -16,6 +16,7 @@
       <br>
 
       <button v-on:click="toggleInfo(product)">More Info</button>
+      <button v-on:click="addProduct(product)"> Add a new product</button>
       <div v-if="currentProduct">
         <p>description: {{product.description }} </p>
 
@@ -36,6 +37,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data: function() {
     return {

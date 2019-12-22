@@ -10,10 +10,12 @@
       <p>price: {{product.price }}</p>
       <p>image: {{product.image_url }}</p>
       <router-link v-bind:to="`/products/${product.id}`">show more</router-link>
+    
 
       <hr>
-
-
+    Search <input type="text" v-model="searchTerm">
+    <datalist id="titles">
+        <option v-for="product in products">{{product.title}}</option>
     </div>
 
 
@@ -25,6 +27,7 @@
 
 <script>
 import axios from "axios";
+import Vue2Filters from 'vue2-filters';
 export default {
   data: function() {
     return {
