@@ -13,10 +13,11 @@
     
 
       <hr>
+    </div>
     Search <input type="text" v-model="searchTerm">
     <datalist id="titles">
         <option v-for="product in products">{{product.title}}</option>
-    </div>
+    </datalist>
 
 
   </div>

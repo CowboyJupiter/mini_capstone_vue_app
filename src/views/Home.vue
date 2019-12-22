@@ -7,28 +7,39 @@
     <p>Product Description <input type="text" v-model="newProductDescription"></p>
     <p>Product Image <input type="text" v-model="newProductImage"></p>
 
-    <div v-for="product in filterBy(products, searchTerm, 'name')">    v-bind:class="{selected: product.selected}">
+    <transition-group appear enter-active-class="animate fadeIn" leave-active-class="animated fadeOut">
+      
+
+
+
+      
+      <div v-for="product in filterBy(products, searchTerm, 'name')">    <!-- <v-bind:class="{selected: product.selected}> -->
+      <input type="text" v-model="searchTerm">
+      <button v-on:click="setSortAttribute('name')"> sort by name</button>
+      <button v-on:click="('price')"> sort by price </button>
       <button v-on:click="(product)">select product</button>
-      <p>id: {{ product.id }}</p>
-      <p>title: {{ product.name }}</p>
-      <p>description:{{ product.description }} </p>
-      <img v-bind:src="product.image_url" v-bind:alt="product.name">
-      <br>
+     <!--  <div v-for="product in orderBy(products, searchTerm, 'name', 'price')"> -->
+        <p>id: {{ product.id }}</p>
+        <p>title: {{ product.name }}</p>
+        <p>description:{{ product.description }} </p>
+        <img v-bind:src="product.image_url" v-bind:alt="product.name">
+        <br>
 
-      <button v-on:click="toggleInfo(product)">More Info</button>
-      <button v-on:click="addProduct(product)"> Add a new product</button>
-      <div v-if="currentProduct">
-        <p>description: {{product.description }} </p>
+        <button v-on:click="toggleInfo(product)">More Info</button>
+        <button v-on:click="addProduct(product)"> Add a new product</button>
+        <div v-if="currentProduct">
+          <p>description: {{product.description }} </p>
 
 
-        <p>name: <input type="text" v-model="product.name"></p>
-        <p>price: <input type="text" v-model="product.price"></p>
-        <p>description: <input type="text" v-model="product.description"></p>
-        <p>image_url: <input type="text" v-model="product.image_url"></p>
+          <p>name: <input type="text" v-model="product.name"></p>
+          <p>price: <input type="text" v-model="product.price"></p>
+          <p>description: <input type="text" v-model="product.description"></p>
+          <p>image_url: <input type="text" v-model="product.image_url"></p>
+        </div>
       </div>
-   
+     
+    </transition-group>
 
-    </div>
   </div>
 </template>
 
@@ -37,17 +48,21 @@
 
 <script>
 import axios from "axios";
+import Vue2Filters from 'vue2-filters';
+import "animate.css/animate.css";
 
 export default {
+  mixins: [Vue2Filters.mixin],
   data: function() {
     return {
       message: "Welcome to Vue.js!",
+      searchTerm: '',
       products: [],
       newProductName: "",
       newProductPrice: "",
       newProductDescription: "",
       newProductImage: "",
-      currentProduct: {}
+      currentProduct: {},
     };
   },
 
@@ -95,7 +110,7 @@ export default {
         price: theProduct.price,
         descrition: theProduct.description,
         image_url: theProduct.image_url,
-      }
+      };
 
       axios.patch(`/api/products/${theProduct.id}`, params).then(response => {
         console.log(response.data);
@@ -103,9 +118,12 @@ export default {
         theProduct.price = response.data.price;
         theProduct.description = response.data.description;
       });
+    },
+    setSortAttribute: function(theAttribute) {
+      this.setSortAttribute = theAttribute;
     }
 
 
   }
-  };
-  </script>
+};
+</script>
